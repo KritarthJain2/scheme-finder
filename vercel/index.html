@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheme Finder — Real government scheme search</title>
+<meta name="description" content="Scheme Finder searches real, current government scheme pages in Hindi or English and shows only what the search actually found, with the official link to verify on. Guidance only, not approval. No curated list, no demo data.">
+<style>
+:root{--green:#0b5a3e;--bg:#f3f5f3;--ink:#14201a;--mut:#55645c;--line:#dde5df}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:var(--green)}button,input,select,textarea{font:inherit}
+.topbar{background:var(--green);color:#fff;padding:10px 16px;font-size:14px}
+.topbar .wrap,.hero .wrap,main,footer .wrap{max-width:900px;margin:0 auto;padding-left:16px;padding-right:16px}
+.hero{background:#fff;border-bottom:1px solid var(--line);padding:28px 0 22px}
+.hero h1{font-size:32px;line-height:1.15;margin:0 0 8px}.hero p{color:var(--mut);font-size:18px;margin:0 0 14px;max-width:640px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#eef6f0;border:1px solid var(--line);border-radius:20px;padding:5px 11px;font-size:13px}
+.langbtn{border:1px solid #bbb;background:#fff;padding:7px 14px;border-radius:20px;cursor:pointer}
+.langbtn.active{background:var(--green);color:#fff;border-color:var(--green)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+section{margin:22px 0}h2{font-size:24px;margin:0 0 10px}h3{margin:0 0 6px}
+label{display:block;font-weight:650;margin:14px 0 5px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #bcc8c0;border-radius:10px;background:#fff}
+.cta{width:100%;margin-top:18px;padding:14px;font-size:18px;font-weight:750;background:var(--green);color:#fff;border:0;border-radius:12px;cursor:pointer}
+.cta:disabled{opacity:.6}.badge{display:inline-block;background:#fff3cd;border:1px solid #e6c87a;padding:4px 10px;border-radius:20px;font-size:13px}
+.result{border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+.conf{font-size:12px;background:#e8f5ee;border-radius:12px;padding:3px 9px;font-weight:700}
+.muted{color:var(--mut);font-size:14px}footer{background:#14201a;color:#dbe5df;padding:22px 0 30px;margin-top:28px}
+footer p{font-size:14px;opacity:.9}
+</style></head><body>
+<div class="topbar"><div class="wrap"><b>🇮🇳 Scheme Finder</b> &nbsp;<span>• Nebius × NVIDIA Global AI Hackathon • Best Apps &amp; Agents • Real data only</span></div></div>
+<div class="hero"><div class="wrap">
+<h1 id="hero-title">Find government schemes from real search results</h1>
+<p id="hero-sub">Describe your situation in simple words — in Hindi or English. We search live government pages and show only what was actually found, with the official link to verify on. No curated list, no demo schemes.</p>
+<div class="pills"><span class="pill">✓ No name, Aadhaar, phone or bank details asked</span><span class="pill">✓ Nothing you type is saved</span><span class="pill">✓ Guidance only — not approval</span><span class="pill">✓ If real search fails, nothing fake is shown</span></div>
+<p style="margin-top:14px"><button type="button" id="lang-en" class="langbtn active">English</button> <button type="button" id="lang-hi" class="langbtn">हिन्दी</button> &nbsp;<span class="badge" id="mode-badge">Checking real search…</span></p>
+</div></div>
+<main>
+<section class="card"><h2 id="how-title">How it works</h2>
+<p class="muted" id="how-text">1. You describe your situation. 2. The server searches Tavily, restricted to official government domains. 3. If a Nebius key is set, Nemotron on Nebius Token Factory ranks only those search results — it cannot add a scheme or a link of its own. 4. You verify on the linked official page before applying.</p>
+<p class="muted" id="server-note"><b>Important:</b> this page needs the server running with a Tavily key. Opened on its own, without a server, it cannot fetch real schemes — and it will say so instead of showing made-up ones.</p>
+</section>
+
+<section class="card"><h2 id="finder-title">Check your schemes</h2>
+<form id="form">
+<label id="l-age" for="age">Age (optional)</label><input id="age" type="number" min="0" max="120" placeholder="e.g. 32">
+<label id="l-state" for="state">State</label><select id="state"><option value="">Choose a state</option><option>Andhra Pradesh</option><option>Assam</option><option>Bihar</option><option>Delhi</option><option>Gujarat</option><option>Haryana</option><option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option><option>Odisha</option><option>Punjab</option><option>Rajasthan</option><option>Tamil Nadu</option><option>Telangana</option><option>Uttar Pradesh</option><option>West Bengal</option><option>Other / Not sure</option></select>
+<label id="l-occ" for="occupation">What do you do?</label><select id="occupation"><option value="">Choose one</option><option value="student">Student</option><option value="farmer">Farmer</option><option value="worker">Worker / daily wage</option><option value="small_business">Small shop / business</option><option value="artisan">Artisan / craftsperson</option><option value="homemaker">Homemaker</option><option value="senior">Retired / senior citizen</option><option value="other">Other</option></select>
+<label id="l-income" for="income">Family income</label><select id="income"><option value="">Prefer not to say</option><option value="low">Low</option><option value="middle">Middle</option><option value="high">High</option></select>
+<label id="l-desc" for="description">Tell us in your own words</label><textarea id="description" rows="3" placeholder="Example: I am a farmer with a small field."></textarea>
+<p class="muted" id="privacy">We do not ask for your name, Aadhaar number, phone number, or bank details. Nothing you type here is saved or sent anywhere except for this one search request.</p>
+<button class="cta" type="submit" id="submit">Find schemes →</button>
+<p id="error" style="color:#a00;font-weight:700" hidden></p>
+</form>
+<div id="results" hidden><h2 id="results-title" style="margin-top:22px">Schemes found by real search</h2><p id="disclaimer" style="background:#fff8e1;padding:12px;border-radius:10px"></p><div id="cards"></div><div id="sources-wrap" hidden><h3 id="sources-title">Sources found by search</h3><ul id="sources"></ul></div></div>
+</section>
+
+<section class="card"><h2 id="official-title">Official finder, directly</h2>
+<p class="muted" id="official-text">You can also check the Government of India's own scheme finder directly, without this app:</p>
+<p><a href="https://www.myscheme.gov.in" target="_blank" rel="noopener">myscheme.gov.in — official myScheme portal</a></p>
+</section>
+
+<section class="card"><h2 id="faq-title">Questions</h2>
+<p><b id="q1">Does this mean I am approved?</b><br><span id="a1" class="muted">No. This is guidance only. Only the official scheme authority can approve you. Always verify on the linked official page.</span></p>
+<p><b id="q2">Do you store my details?</b><br><span id="a2" class="muted">No. No name, Aadhaar, phone, or bank details are asked, and the profile is used only for that one request.</span></p>
+<p><b id="q3">What if no scheme is shown?</b><br><span id="a3" class="muted">That means real search found nothing for those words, or search is not configured. The app will not invent a scheme to fill the page — try different words, or use the official finder above.</span></p>
+</section>
+</main>
+<footer><div class="wrap"><p><b>Scheme Finder</b> — Built for the Nebius × NVIDIA Global AI Hackathon. Real data only: Tavily search on official government domains, with NVIDIA Nemotron on Nebius Token Factory ranking only those results when a Nebius key is set. No curated list, no demo mode.</p><p>Guidance only, not approval, not legal or financial advice.</p></div></footer>
+<script>
+const STR={en:{heroTitle:"Find government schemes from real search results",heroSub:"Describe your situation in simple words — in Hindi or English. We search live government pages and show only what was actually found, with the official link to verify on. No curated list, no demo schemes.",howTitle:"How it works",finderTitle:"Check your schemes",lAge:"Age (optional)",lState:"State",lOcc:"What do you do?",lIncome:"Family income",lDesc:"Tell us in your own words",privacy:"We do not ask for your name, Aadhaar number, phone number, or bank details. Nothing you type here is saved or sent anywhere except for this one search request.",submit:"Find schemes →",resultsTitle:"Schemes found by real search",officialTitle:"Official finder, directly",faqTitle:"Questions",q1:"Does this mean I am approved?",a1:"No. This is guidance only. Only the official scheme authority can approve you. Always verify on the linked official page.",q2:"Do you store my details?",a2:"No. No name, Aadhaar, phone, or bank details are asked, and the profile is used only for that one request.",q3:"What if no scheme is shown?",a3:"That means real search found nothing for those words, or search is not configured. The app will not invent a scheme to fill the page — try different words, or use the official finder above.",docs:"Documents mentioned in the source (if any):",docsNone:"Documents are not stated in the search result — check them on the official page.",next:"Next step:",official:"Official source:",sourcesTitle:"Sources found by search",real:"Real data — Tavily search on",searchOnly:"Real data — search only, AI matching off",notConfigured:"Real search not configured — server needs a Tavily key",errorServer:"Real search is not available right now. No schemes are shown, because there is no curated fallback.",searching:"Searching real government pages…"},
+hi:{heroTitle:"वास्तविक खोज से सरकारी योजनाएँ खोजें",heroSub:"अपनी स्थिति सरल शब्दों में बताएँ — हिन्दी या अंग्रेज़ी में। हम लाइव सरकारी पेज खोजते हैं और केवल वही दिखाते हैं जो वास्तव में मिला, आधिकारिक लिंक के साथ। कोई चुनी हुई सूची नहीं, कोई डेमो योजना नहीं।",howTitle:"यह कैसे काम करता है",finderTitle:"अपनी योजनाएँ जाँचें",lAge:"आयु (वैकल्पिक)",lState:"राज्य",lOcc:"आप क्या करते हैं?",lIncome:"पारिवारिक आय",lDesc:"अपने शब्दों में बताएँ",privacy:"हम आपका नाम, आधार नंबर, फोन नंबर या बैंक विवरण नहीं माँगते। आप जो लिखते हैं, वह सहेजा नहीं जाता।",submit:"योजनाएँ खोजें →",resultsTitle:"वास्तविक खोज से मिली योजनाएँ",officialTitle:"आधिकारिक खोज, सीधे",faqTitle:"प्रश्न",q1:"क्या इसका मतलब है कि मैं स्वीकृत हूँ?",a1:"नहीं। यह केवल मार्गदर्शन है। केवल आधिकारिक योजना प्राधिकरण ही स्वीकृति दे सकता है।",q2:"क्या आप मेरी जानकारी सहेजते हैं?",a2:"नहीं। नाम, आधार, फोन या बैंक विवरण माँगा ही नहीं जाता।",q3:"यदि कोई योजना न दिखे?",a3:"इसका मतलब है वास्तविक खोज को उन शब्दों के लिए कुछ नहीं मिला, या खोज सेट नहीं है। ऐप कोई योजना गढ़कर नहीं दिखाएगा।",docs:"स्रोत में बताए गए दस्तावेज़ (यदि कोई हो):",docsNone:"स्रोत में दस्तावेज़ नहीं बताए गए हैं — आधिकारिक पेज पर जाँचें।",next:"अगला कदम:",official:"आधिकारिक स्रोत:",sourcesTitle:"खोज से मिले स्रोत",real:"वास्तविक डेटा — Tavily खोज",searchOnly:"वास्तविक डेटा — केवल खोज, AI मिलान बंद है",notConfigured:"वास्तविक खोज सेट नहीं है — सर्वर को Tavily key चाहिए",errorServer:"वास्तविक खोज अभी उपलब्ध नहीं है। कोई योजना नहीं दिखाई जा रही, क्योंकि कोई चुनी हुई सूची अब नहीं है।",searching:"वास्तविक सरकारी पेज खोजे जा रहे हैं…"}};
+let lang="en";
+function t(k){return STR[lang][k]}
+function applyLang(){const m={"hero-title":"heroTitle","hero-sub":"heroSub","how-title":"howTitle","finder-title":"finderTitle","l-age":"lAge","l-state":"lState","l-occ":"lOcc","l-income":"lIncome","l-desc":"lDesc","privacy":"privacy","submit":"submit","results-title":"resultsTitle","official-title":"officialTitle","faq-title":"faqTitle","q1":"q1","a1":"a1","q2":"q2","a2":"a2","q3":"q3","a3":"a3","sources-title":"sourcesTitle"};
+for(const [id,key] of Object.entries(m)){const el=document.getElementById(id); if(el) el.textContent=t(key);}
+document.getElementById("lang-en").classList.toggle("active",lang==="en");document.getElementById("lang-hi").classList.toggle("active",lang==="hi");}
+document.getElementById("lang-en").onclick=()=>{lang="en";applyLang();};
+document.getElementById("lang-hi").onclick=()=>{lang="hi";applyLang();};
+function cardHTML(m){const docs=m.documents||[];
+return `<div class="result"><h3>${m.name} ${m.confidence?`<span class="conf">${m.confidence}</span>`:""}</h3>${m.why?`<p>${m.why}</p>`:""}${docs.length?`<p><strong>${t("docs")}</strong></p><ul>${docs.map(d=>"<li>"+d+"</li>").join("")}</ul>`:`<p class="muted">${t("docsNone")}</p>`}${m.next_step?`<p><strong>${t("next")}</strong> ${m.next_step}</p>`:""}${m.url?`<p><strong>${t("official")}</strong> <a href="${m.url}" target="_blank" rel="noopener">${m.url}</a></p>`:""}</div>`;}
+function renderCards(matches,disclaimer,sources,mode){document.getElementById("disclaimer").textContent=disclaimer||"";
+document.getElementById("cards").innerHTML=matches.map(cardHTML).join("")||"<p>No real scheme was found for this search.</p>";
+document.getElementById("mode-badge").textContent=mode==="live"?t("real"):(mode==="search-only"?t("searchOnly"):t("notConfigured"));
+const sw=document.getElementById("sources-wrap"); if(sources&&sources.length){sw.hidden=false;document.getElementById("sources").innerHTML=sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${s.title||s.url}</a></li>`).join("");} else sw.hidden=true;
+document.getElementById("results").hidden=false;document.getElementById("results").scrollIntoView({behavior:"smooth"});}
+function showError(msg){const err=document.getElementById("error"); err.textContent=msg; err.hidden=false; document.getElementById("results").hidden=true;}
+document.getElementById("form").addEventListener("submit",async e=>{e.preventDefault();
+const btn=document.getElementById("submit"), err=document.getElementById("error"); err.hidden=true; btn.disabled=true; btn.textContent=t("searching");
+const ageVal=document.getElementById("age").value;
+const profile={age:ageVal?parseInt(ageVal,10):null,state:document.getElementById("state").value,occupation:document.getElementById("occupation").value,income:document.getElementById("income").value,description:document.getElementById("description").value,language:lang};
+try{const r=await fetch("/api/find",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile)});
+const d=await r.json();
+if(!r.ok){showError(d.message||t("errorServer"));}
+else {renderCards(d.matches||[],d.disclaimer,d.sources,d.mode);}}
+catch{showError(t("errorServer"));}
+btn.disabled=false; btn.textContent=t("submit");});
+fetch("/api/status").then(r=>r.json()).then(j=>{document.getElementById("mode-badge").textContent=j.tavily_configured?(j.nebius_configured?t("real"):t("searchOnly")):t("notConfigured");}).catch(()=>{document.getElementById("mode-badge").textContent=t("notConfigured");});
+applyLang();
+</script></body></html>
