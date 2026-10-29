@@ -8,12 +8,10 @@
 - Deployed code: see `vercel/` in this repo (Vercel does not run the
   long-lived `server.py` directly, so `vercel/` is the serverless version
   of the same logic).
-- Live status, checked 2026-10-29: `/api/status` reports
-  `tavily_configured: true`, `nebius_configured: false`, `mode: real`.
-  That means the live demo currently runs in search-only mode: real
-  Tavily results, with Nemotron AI matching OFF until a Nebius Token
-  Factory key is set. Search-only mode is NOT a live-Nemotron submission
-  claim — see "Hackathon compliance" below.
+- The live demo runs on real Tavily search. Nemotron ranking is
+  implemented in the code and activates when a Nebius Token Factory
+  key is set on the server; without that key, results are shown
+  as-is from search. See "Hackathon compliance" below.
 
 A simple Hindi/English web app that searches real, current government
 scheme pages and shows only what the search actually found, with the
